@@ -2,14 +2,15 @@ import { join } from 'path';
 import { ConnectionOptions } from 'typeorm';
 import { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_DATABASE } from '@config';
 
-export const dbConnection: ConnectionOptions = {
+const dbConnection: ConnectionOptions = {
   type: 'postgres',
   host: DB_HOST,
   port: Number(DB_PORT),
   username: DB_USER,
   password: DB_PASSWORD,
   database: DB_DATABASE,
-  synchronize: true,
+  synchronize: false,
+  migrationsRun: true,
   logging: false,
   entities: [join(__dirname, '../**/*.entity{.ts,.js}')],
   migrations: [join(__dirname, '../**/*.migration{.ts,.js}')],
@@ -20,3 +21,5 @@ export const dbConnection: ConnectionOptions = {
     subscribersDir: 'src/subscriber',
   },
 };
+
+export default dbConnection;
