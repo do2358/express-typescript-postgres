@@ -1,6 +1,7 @@
 import { Actor } from '@/interfaces/actors.interface';
 import { IsNotEmpty } from 'class-validator';
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { AfterLoad, BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import moment from 'moment';
 
 @Entity({ name: 'actors' })
 export class ActorEntity extends BaseEntity implements Actor {
@@ -13,6 +14,13 @@ export class ActorEntity extends BaseEntity implements Actor {
 
   @Column({ name: 'year_of_birth' })
   yearOfBirth: number;
+
+  protected age: number;
+
+  @AfterLoad()
+  calculateAge() {
+    this.age = moment().year() - this.yearOfBirth;
+  }
 
   @Column()
   @CreateDateColumn({ name: 'created_at' })
