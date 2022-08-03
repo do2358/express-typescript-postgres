@@ -1,6 +1,10 @@
 tags:
 - name: users
   description: users API
+- name: movies
+  description: movies API
+- name: actors
+  description: actors API
 
 paths:
 # [GET] users
@@ -103,6 +107,41 @@ paths:
         500:
           description: 'Server Error'
 
+# [POST] movies
+  /movies:
+    post:
+      tags:
+      - movies
+      summary: Add Movie
+      parameters:
+      - name: body
+        in: body
+        description: movie Data
+        required: true
+        schema:
+          $ref: '#/definitions/movies'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# [GET] actors
+  /actors:
+    get:
+      tags:
+      - actors
+      summary: Find All Actors
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
 # definitions
 definitions:
   users:
@@ -117,6 +156,29 @@ definitions:
       password:
         type: string
         description: user Password
+  movies:
+    type: object
+    required:
+        - title
+        - description
+    properties:
+      title:
+        type: string
+        description: movie Title
+      description:
+        type: string
+        description: movie Description
+      actors:
+        type: array
+        description: actors in Movie
+        items:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: number
+              description: Actor Id
 
 schemes:
  - https
